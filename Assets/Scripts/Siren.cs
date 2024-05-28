@@ -5,9 +5,23 @@ using UnityEngine;
 
 public class Siren : MonoBehaviour
 {
+    [SerializeField] private Trigger _trigger;
+
     private AudioSource _sound;
-    private float _sirenVolume;
-    private float _changeVolumeRate = 0.7f;
+    private Coroutine _coroutineIncreaseVolume;
+    private Coroutine _coroutineReduceVolume;
+
+    private void OnEnable()
+    {
+        _trigger.TriggerOccupied += TurnOnSiren;
+        _trigger.TriggerVacated += TurnOffSiren;
+    }
+
+    private void OnDisable()
+    {
+        _trigger.TriggerOccupied -= TurnOnSiren;
+        _trigger.TriggerVacated -= TurnOffSiren;
+    }
 
     private void Start()
     {
@@ -15,36 +29,38 @@ public class Siren : MonoBehaviour
         _sound.volume = 0;
     }
 
-    private IEnumerator ChangeVolume()
+    private void TurnOnSiren()
     {
-        while (_sound.volume != _sirenVolume)
+        if (_coroutineReduceVolume != null)
         {
-            _sound.volume = Mathf.MoveTowards(_sound.volume, _sirenVolume, _changeVolumeRate * Time.deltaTime);
+            StopCoroutine(_coroutineReduceVolume);
+        }
+
+        float maxVolume = 1f;
+        _sound.Play();
+        _coroutineIncreaseVolume = StartCoroutine(ChangeVolume(maxVolume));
+    }
+
+    private void TurnOffSiren()
+    {
+        float minVolume = 0f;
+        StopCoroutine(_coroutineIncreaseVolume);
+        _coroutineReduceVolume = StartCoroutine(ChangeVolume(minVolume));
+    }
+
+    private IEnumerator ChangeVolume(float volume)
+    {
+        float changeVolumeRate = 0.7f;
+
+        while (_sound.volume != volume)
+        {
+            _sound.volume = Mathf.MoveTowards(_sound.volume, volume, changeVolumeRate * Time.deltaTime);
             yield return null;
-
-            if (_sound.volume == 0)
-            {
-                _sound.Stop();
-            }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<Robber>(out Robber robber))
+        if (_sound.volume == 0)
         {
-            _sirenVolume = 1f;
-            _sound.Play();
-            StartCoroutine(ChangeVolume());
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<Robber>(out Robber robber))
-        {
-            _sirenVolume = 0f;
-            StartCoroutine(ChangeVolume());
+            _sound.Stop();
         }
     }
 }

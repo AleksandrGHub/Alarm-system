@@ -1,8 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(SpriteRenderer))]
 
 public class Robber : MonoBehaviour
 {
@@ -14,20 +12,9 @@ public class Robber : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _sprite;
     private Rigidbody2D _rigidbody;
-    private float _speed = 2.0f;
+    private float _speed;
     private float _jumpForce = 5.0f;
-    private bool _punchAnimation = true;
-
-    public static class AnimatorController
-    {
-        public static class State
-        {
-            public const string Run = "Run";
-            public const string Walk = "Walk";
-            public const string Jump = "Jump";
-            public const string PunchAttack = "Punch_attack";
-        }
-    }
+    private bool _isComplete = true;
 
     private void Start()
     {
@@ -38,10 +25,11 @@ public class Robber : MonoBehaviour
 
     private void Update()
     {
-        if (_punchAnimation)
+        if (_isComplete)
         {
             if (Input.GetButtonDown(Fire1))
             {
+                _isComplete = false;
                 _animator.SetTrigger(AnimatorController.State.PunchAttack);
             }
 
@@ -54,8 +42,8 @@ public class Robber : MonoBehaviour
             {
                 if (Input.GetKey(LeftShift))
                 {
-                    Walk(3);
-
+                    _speed = 6;
+                    Walk(_speed);
                     _animator.SetBool(AnimatorController.State.Run, true);
                 }
                 else
@@ -63,7 +51,8 @@ public class Robber : MonoBehaviour
                     _animator.SetBool(AnimatorController.State.Run, false);
                 }
 
-                Walk(1);
+                _speed = 2;
+                Walk(_speed);
                 _animator.SetBool(AnimatorController.State.Walk, true);
             }
             else
@@ -74,11 +63,10 @@ public class Robber : MonoBehaviour
         }
     }
 
-    private void Walk(int dynamics)
+    private void Walk(float speed)
     {
         Vector3 direction = transform.right * Input.GetAxis(Horizontal);
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction,
-        _speed * dynamics * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
         _sprite.flipX = direction.x < 0.0F;
     }
 
@@ -86,5 +74,10 @@ public class Robber : MonoBehaviour
     {
         _rigidbody.AddForce(transform.up * _jumpForce, ForceMode2D.Impulse);
         _animator.SetTrigger(AnimatorController.State.Jump);
+    }
+
+    private void AssignIsCompleteTrue()
+    {
+        _isComplete = true;
     }
 }
