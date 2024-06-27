@@ -1005,6 +1005,7 @@ GameObject:
   - component: {fileID: 440390701}
   - component: {fileID: 440390700}
   - component: {fileID: 440390699}
+  - component: {fileID: 440390702}
   m_Layer: 0
   m_Name: Bank
   m_TagString: Untagged
@@ -1024,7 +1025,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3de83118ffd3843bef88d4e1281d3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trigger: {fileID: 2041658612}
+  _siren: {fileID: 1716147833}
+  _bankExterior: {fileID: 2117858839}
+  _bankInterior: {fileID: 1412542248}
 --- !u!212 &440390700
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1092,6 +1095,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &440390702
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440390698}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 2.07, y: -2.49}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.51, y: 4.4}
+  m_EdgeRadius: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,7 +3297,7 @@ GameObject:
   - component: {fileID: 1412542247}
   - component: {fileID: 1412542248}
   m_Layer: 0
-  m_Name: HouseInterior
+  m_Name: BankInterior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3567,7 +3596,6 @@ GameObject:
   - component: {fileID: 1716147832}
   - component: {fileID: 1716147834}
   - component: {fileID: 1716147833}
-  - component: {fileID: 1716147835}
   m_Layer: 0
   m_Name: Siren
   m_TagString: Untagged
@@ -3601,7 +3629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce49453652ca22245b4d41149a64ca78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trigger: {fileID: 2041658612}
 --- !u!82 &1716147834
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3698,32 +3725,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!61 &1716147835
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1716147831}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 2.04, y: -2.49}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12.22, y: 11.09}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.62, y: 4.4}
-  m_EdgeRadius: 0
 --- !u!1 &1771624907
 GameObject:
   m_ObjectHideFlags: 0
@@ -4398,76 +4399,6 @@ Transform:
   m_Father: {fileID: 434594396}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2041658611
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2041658614}
-  - component: {fileID: 2041658613}
-  - component: {fileID: 2041658612}
-  m_Layer: 0
-  m_Name: Trigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2041658612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2041658611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bf10dc55d8e8904ca8adb484b3adc1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!61 &2041658613
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2041658611}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 12.22, y: 11.09}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.51, y: 4.4}
-  m_EdgeRadius: 0
---- !u!4 &2041658614
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2041658611}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.93, y: -3.12, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2081874553
 GameObject:
   m_ObjectHideFlags: 0
@@ -4561,7 +4492,7 @@ GameObject:
   - component: {fileID: 2117858838}
   - component: {fileID: 2117858839}
   m_Layer: 0
-  m_Name: HouseExterior
+  m_Name: BankExterior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

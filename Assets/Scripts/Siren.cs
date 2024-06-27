@@ -5,23 +5,8 @@ using UnityEngine;
 
 public class Siren : MonoBehaviour
 {
-    [SerializeField] private Trigger _trigger;
-
     private AudioSource _sound;
-    private Coroutine _coroutineIncreaseVolume;
-    private Coroutine _coroutineReduceVolume;
-
-    private void OnEnable()
-    {
-        _trigger.TriggerOccupied += TurnOnSiren;
-        _trigger.TriggerVacated += TurnOffSiren;
-    }
-
-    private void OnDisable()
-    {
-        _trigger.TriggerOccupied -= TurnOnSiren;
-        _trigger.TriggerVacated -= TurnOffSiren;
-    }
+    private Coroutine _coroutine;
 
     private void Start()
     {
@@ -29,32 +14,41 @@ public class Siren : MonoBehaviour
         _sound.volume = 0;
     }
 
-    private void TurnOnSiren()
+    public void TurnOnSiren()
     {
-        if (_coroutineReduceVolume != null)
+        if (_coroutine != null)
         {
-            StopCoroutine(_coroutineReduceVolume);
+            StopCoroutine(_coroutine);
         }
 
-        float maxVolume = 1f;
+        float maxSoundLevel = 1f;
         _sound.Play();
-        _coroutineIncreaseVolume = StartCoroutine(ChangeVolume(maxVolume));
+        LaunchCoroutine(maxSoundLevel);
     }
 
-    private void TurnOffSiren()
+    public void TurnOffSiren()
     {
-        float minVolume = 0f;
-        StopCoroutine(_coroutineIncreaseVolume);
-        _coroutineReduceVolume = StartCoroutine(ChangeVolume(minVolume));
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
+
+        float minSoundLevel = 0f;
+        LaunchCoroutine(minSoundLevel);
     }
 
-    private IEnumerator ChangeVolume(float volume)
+    private void LaunchCoroutine(float soundLevel)
+    {
+        _coroutine = StartCoroutine(ChangeVolume(soundLevel));
+    }
+
+    private IEnumerator ChangeVolume(float soundLevel)
     {
         float changeVolumeRate = 0.7f;
 
-        while (_sound.volume != volume)
+        while (_sound.volume != soundLevel)
         {
-            _sound.volume = Mathf.MoveTowards(_sound.volume, volume, changeVolumeRate * Time.deltaTime);
+            _sound.volume = Mathf.MoveTowards(_sound.volume, soundLevel, changeVolumeRate * Time.deltaTime);
             yield return null;
         }
 

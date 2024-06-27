@@ -2,51 +2,27 @@ using UnityEngine;
 
 public class Bank : MonoBehaviour
 {
-    [SerializeField] private Trigger _trigger;
+    [SerializeField] private Siren _siren;
+    [SerializeField] private BankExterior _bankExterior;
+    [SerializeField] private BankInterior _bankInterior;
 
-    private HouseExterior _houseExterior;
-    private HouseInterior _houseInterior;
-
-    private void OnEnable()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        _trigger.TriggerOccupied += SetActiveHouseExteriorFalse;
-        _trigger.TriggerOccupied += SetActiveHouseInteriorTrue;
-        _trigger.TriggerVacated += SetActiveHouseExteriorTrue;
-        _trigger.TriggerVacated += SetActiveHouseInteriorFalse;
+        if (collision.TryGetComponent<Robber>(out _))
+        {
+            _siren.TurnOnSiren();
+            _bankExterior.SetActiveFalse();
+            _bankInterior.SetActiveTrue();
+        }
     }
 
-    private void OnDisable()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        _trigger.TriggerOccupied -= SetActiveHouseExteriorFalse;
-        _trigger.TriggerOccupied -= SetActiveHouseInteriorTrue;
-        _trigger.TriggerVacated -= SetActiveHouseExteriorTrue;
-        _trigger.TriggerVacated -= SetActiveHouseInteriorFalse;
-    }
-    private void Start()
-    {
-        _houseExterior = GetComponentInChildren<HouseExterior>();
-        _houseInterior = GetComponentInChildren<HouseInterior>();
-        _houseInterior.gameObject.SetActive(false);
-        _houseExterior.gameObject.SetActive(true);
-    }
-
-    private void SetActiveHouseExteriorTrue()
-    {
-        _houseExterior.gameObject.SetActive(true);
-    }
-
-    private void SetActiveHouseExteriorFalse()
-    {
-        _houseExterior.gameObject.SetActive(false);
-    }
-
-    private void SetActiveHouseInteriorTrue()
-    {
-        _houseInterior.gameObject.SetActive(true);
-    }
-
-    private void SetActiveHouseInteriorFalse()
-    {
-        _houseInterior.gameObject.SetActive(false);
+        if (collision.TryGetComponent<Robber>(out _))
+        {
+            _siren.TurnOffSiren();
+            _bankExterior.SetActiveTrue();
+            _bankInterior.SetActiveFalse();
+        }
     }
 }
